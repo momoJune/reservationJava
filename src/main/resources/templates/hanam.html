@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Macro Runner</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+</head>
+<body>
+<h1>테스트 입력화면</h1>
+<form th:action="@{/runMacro}" method="post">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="jmjm9797" required><br>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" value="Qkrwnsah97!" required><br>
+    </div>
+    <div class="form-group">
+        <label for="pickedStadium">Stadium:</label>
+        <select id="pickedStadium" name="pickedStadium">
+            <option value="" disabled selected>구장 선택</option>
+            <option th:each="option : ${stadiumOptions}"
+                    th:value="${option[1]}"
+                    th:text="${option[0]}"></option>
+        </select><br>
+    </div>
+
+
+    <button type="submit">Run Macro</button>
+</form>
+</body>
+</html>
