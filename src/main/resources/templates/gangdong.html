@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Macro Runner</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+  <style>
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select {
+      padding: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .checkbox-group input {
+      margin-right: 5px;
+    }
+    .horizontal-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .horizontal-group .form-group {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+<h1>테스트 입력화면</h1>
+<form th:action="@{/runGangMacro}" method="post">
+  <div class="form-group">
+    <label for="username">Username:</label>
+      <input type="text" id="username" name="username" value="jmjm9797" required><br>
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" value="Qkrwnsah97!" required><br>
+  </div>
+  <div class="form-group">
+    <label for="pickedStadium">Stadium:</label>
+    <select id="pickedStadium" name="pickedStadium" required>
+      <option value="" disabled selected>구장 선택</option>
+      <option value="강일테니스장">강일테니스장</option>
+      <option value="명일테니스장">명일테니스장</option>
+      <option th:each="option : ${stadiumOptions}"
+              th:value="${option[1]}"
+              th:text="${option[0]}"></option>
+    </select><br>
+  </div>
+  <div class="form-group">
+    <label for="numPeople">Number of People:</label>
+    <select id="numPeople" name="numPeople" required>
+      <option value="" disabled selected>인원 선택</option>
+      <option th:each="num : ${#numbers.sequence(1, 8)}"
+              th:value="${num}"
+              th:text="${num}"></option>
+    </select><br>
+  </div>
+  <div class="horizontal-group">
+    <div class="form-group">
+      <label for="year">Year:</label>
+      <input type="number" id="year" name="year" min="2023" max="2030" value="2024" required>
+    </div>
+    <div class="form-group">
+      <label for="month">Month:</label>
+      <select id="month" name="month" required>
+        <option value="" disabled selected>월 선택</option>
+        <option th:each="mon : ${#numbers.sequence(1, 12)}"
+                th:value="${mon}"
+                th:text="${mon}"></option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="time">Time:</label>
+      <select id="time" name="time" required>
+        <option value="" disabled selected>시간 선택</option>
+        <option value="06:00~08:00">06:00~08:00</option>
+        <option value="08:00~10:00">08:00~10:00</option>
+        <option value="10:00~12:00">10:00~12:00</option>
+        <option value="12:00~14:00">12:00~14:00</option>
+        <option value="14:00~16:00">14:00~16:00</option>
+        <option value="16:00~18:00">16:00~18:00</option>
+        <option value="18:00~20:00">18:00~20:00</option>
+        <option value="20:00~21:50">20:00~21:50</option>
+      </select>
+    </div>
+  </div><br>
+  <div class="form-group">
+    <label>Day:</label>
+    <div class="checkbox-group">
+      <label for="monday"><input type="checkbox" id="monday" name="day" value="월"/> 월</label>
+      <label for="tuesday"><input type="checkbox" id="tuesday" name="day" value="화"/> 화</label>
+      <label for="wednesday"><input type="checkbox" id="wednesday" name="day" value="수"/> 수</label>
+      <label for="thursday"><input type="checkbox" id="thursday" name="day" value="목"/> 목</label>
+      <label for="friday"><input type="checkbox" id="friday" name="day" value="금"/> 금</label>
+      <label for="saturday"><input type="checkbox" id="saturday" name="day" value="토"/> 토</label>
+      <label for="sunday"><input type="checkbox" id="sunday" name="day" value="일"/> 일</label>
+    </div><br>
+  </div>
+
+  <button type="submit">Run Macro</button>
+</form>
+</body>
+</html>
