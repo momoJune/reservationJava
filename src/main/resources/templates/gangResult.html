@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>gangdong Result</title>
+</head>
+<body>
+<h1>입력 결과</h1>
+<p>Username: <span th:text="${gangVO.username}"></span></p>
+<p>Password: <span th:text="${gangVO.password}"></span></p>
+<p>Stadium: <span th:text="${gangVO.pickedStadium}"></span></p>
+<p>Number of People: <span th:text="${gangVO.numPeople}"></span></p>
+<p>Year: <span th:text="${gangVO.year}"></span></p>
+<p>Month: <span th:text="${gangVO.month}"></span></p>
+<p>Time: <span th:text="${gangVO.time}"></span></p>
+<p>Days: <span th:each="day : ${gangVO.day}" th:text="${day} + ' '"></span></p>
+</body>
+</html>
