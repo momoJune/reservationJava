@@ -74,9 +74,8 @@
       <label for="month">Month:</label>
       <select id="month" name="month" required>
         <option value="" disabled selected>월 선택</option>
-        <option th:each="mon : ${#numbers.sequence(1, 12)}"
-                th:value="${mon}"
-                th:text="${mon}"></option>
+        <option th:value="${currentMonth}" th:text="${currentMonthName}"></option>
+        <option th:value="${nextMonth}" th:text="${nextMonthName}"></option>
       </select>
     </div>
     <div class="form-group">
