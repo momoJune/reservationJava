@@ -38,26 +38,26 @@
 <h1>테스트 입력화면</h1>
 <form th:action="@{/runGangMacro}" method="post">
   <div class="form-group">
-    <label for="username">Username:</label>
+    <label for="username">아이디</label>
       <input type="text" id="username" name="username" value="jmjm9797" required><br>
   </div>
   <div class="form-group">
-    <label for="password">Password:</label>
+    <label for="password">비밀번호</label>
     <input type="password" id="password" name="password" value="Qkrwnsah97!" required><br>
   </div>
   <div class="form-group">
-    <label for="pickedStadium">Stadium:</label>
+    <label for="pickedStadium">테니스장</label>
     <select id="pickedStadium" name="pickedStadium" required>
-      <option value="" disabled selected>구장 선택</option>
+<!--      <option value="" disabled selected>구장 선택</option>-->
       <option value="강일테니스장">강일테니스장</option>
-      <option value="명일테니스장">명일테니스장</option>
+<!--      <option value="명일테니스장">명일테니스장</option>-->
       <option th:each="option : ${stadiumOptions}"
               th:value="${option[1]}"
               th:text="${option[0]}"></option>
     </select><br>
   </div>
   <div class="form-group">
-    <label for="numPeople">Number of People:</label>
+    <label for="numPeople">인원 수</label>
     <select id="numPeople" name="numPeople" required>
       <option value="" disabled selected>인원 선택</option>
       <option th:each="num : ${#numbers.sequence(1, 8)}"
@@ -67,11 +67,11 @@
   </div>
   <div class="horizontal-group">
     <div class="form-group">
-      <label for="year">Year:</label>
+      <label for="year">연도</label>
       <input type="number" id="year" name="year" min="2023" max="2030" value="2024" required>
     </div>
     <div class="form-group">
-      <label for="month">Month:</label>
+      <label for="month">월</label>
       <select id="month" name="month" required>
         <option value="" disabled selected>월 선택</option>
         <option th:value="${currentMonth}" th:text="${currentMonthName}"></option>
@@ -79,7 +79,15 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="time">Time:</label>
+      <label for="day">날짜 기준</label>
+      <select id="day" name="day" required>
+        <option value="" disabled selected>날짜 선택</option>
+        <option value="before">15일 전</option>
+        <option value="after">15일 후</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="time">시간</label>
       <select id="time" name="time" required>
         <option value="" disabled selected>시간 선택</option>
         <option value="06:00~08:00">06:00~08:00</option>
@@ -94,15 +102,15 @@
     </div>
   </div><br>
   <div class="form-group">
-    <label>Day:</label>
+    <label>요일</label>
     <div class="checkbox-group">
-      <label for="monday"><input type="checkbox" id="monday" name="day" value="월"/> 월</label>
-      <label for="tuesday"><input type="checkbox" id="tuesday" name="day" value="화"/> 화</label>
-      <label for="wednesday"><input type="checkbox" id="wednesday" name="day" value="수"/> 수</label>
-      <label for="thursday"><input type="checkbox" id="thursday" name="day" value="목"/> 목</label>
-      <label for="friday"><input type="checkbox" id="friday" name="day" value="금"/> 금</label>
-      <label for="saturday"><input type="checkbox" id="saturday" name="day" value="토"/> 토</label>
-      <label for="sunday"><input type="checkbox" id="sunday" name="day" value="일"/> 일</label>
+      <label for="monday"><input type="checkbox" id="monday" name="date" value="월"/> 월</label>
+      <label for="tuesday"><input type="checkbox" id="tuesday" name="date" value="화"/> 화</label>
+      <label for="wednesday"><input type="checkbox" id="wednesday" name="date" value="수"/> 수</label>
+      <label for="thursday"><input type="checkbox" id="thursday" name="date" value="목"/> 목</label>
+      <label for="friday"><input type="checkbox" id="friday" name="date" value="금"/> 금</label>
+      <label for="saturday"><input type="checkbox" id="saturday" name="date" value="토"/> 토</label>
+      <label for="sunday"><input type="checkbox" id="sunday" name="date" value="일"/> 일</label>
     </div><br>
   </div>
 
