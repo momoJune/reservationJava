@@ -2,10 +2,7 @@ package com.auto.autoreservation.application;
 
 import com.auto.autoreservation.infrastructure.GangdongVO;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -14,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -25,7 +21,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 
 @Controller
@@ -57,9 +52,15 @@ public class GangdongController {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             driver.get("https://online.igangdong.or.kr/Login.do");
-            driver.findElement(By.id("member_id")).sendKeys(vo.getUsername());
-            driver.findElement(By.id("member_pw")).sendKeys(vo.getPassword());
+            // member_id 요소가 나타날 때까지 기다림
+            WebElement memberIdField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("member_id")));
+            memberIdField.sendKeys(vo.getUsername());
+            // member_pw 요소가 나타날 때까지 기다림
+            WebElement memberPwField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("member_pw")));
+            memberPwField.sendKeys(vo.getPassword());
             driver.findElement(By.cssSelector(".btn_login")).click();
+
+            handleAlertIfPresent(driver);
 
             // 페이지가 "https://online.igangdong.or.kr/"로 이동할 때까지 대기
             wait.until(ExpectedConditions.urlToBe("https://online.igangdong.or.kr/"));
@@ -75,13 +76,10 @@ public class GangdongController {
             String yearMonth = vo.getYear()+"."+vo.getMonth();
             WebElement strongElement = driver.findElement(By.cssSelector(".date strong"));
             String strongText = strongElement.getText().trim();
-            if (!strongText.equals(yearMonth)) {
-                driver.findElement(By.cssSelector(".btn_next")).click();
-            }
+
 
             WebElement initialRevWrap = driver.findElement(By.className("rev_wrap"));
             // WebDriverWait 설정
-            WebDriverWait waitWrap = new WebDriverWait(driver, Duration.ofSeconds(10));
 
 
             //내가선택한 연,월의 요일의 날짜 구하기
@@ -97,6 +95,12 @@ public class GangdongController {
                     if (i==5)driver.findElement(By.id("part1002")).click();
                     driver.findElement(By.id(placeId)).click();
                     System.out.println(i+"코트 클릭성공");
+
+                    //월 선택 넘기기
+                    if (!strongText.equals(yearMonth)) {
+                        driver.findElement(By.cssSelector(".btn_next")).click();
+                    }
+                    
                     for (String day : days) {
                         try {
                             // 날짜 요소 찾기
@@ -125,8 +129,9 @@ public class GangdongController {
                                         waitAlert.until(ExpectedConditions.alertIsPresent());
 
                                         // 경고 창을 수락 (확인 버튼 클릭)
-                                        Alert alert = driver.switchTo().alert();
-                                        alert.accept();
+//                                        Alert alert = driver.switchTo().alert();
+                                        handleAlertIfPresent(driver);
+
                                         breakTp =true;
                                         break;
                                     }
@@ -156,8 +161,9 @@ public class GangdongController {
                 waitAlert.until(ExpectedConditions.alertIsPresent());
 
                 // 경고 창을 수락 (확인 버튼 클릭)
-                Alert alert = driver.switchTo().alert();
-                alert.accept();
+
+
+//                alert.accept();
             }
 
 
@@ -260,4 +266,19 @@ public class GangdongController {
         }
         return null;
     }
+
+    public void handleAlertIfPresent(WebDriver driver) {
+        try {
+            // alert이 존재하는지 확인
+            Alert alert = driver.switchTo().alert();
+            // alert이 존재하면 수락
+            alert.accept();
+            System.out.println("Alert accepted");
+        } catch (NoAlertPresentException e) {
+            // alert이 존재하지 않는 경우
+            System.out.println("No alert present");
+        }
+    }
+
+
 }
