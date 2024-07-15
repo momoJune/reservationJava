@@ -13,8 +13,8 @@ public class GangdongVO {
     private int year;
     private int month;
     private String time;
-    private String date;
-    private List<String> day;
+    private String day;
+    private List<String> date;
 
     // Getters and Setters
 }

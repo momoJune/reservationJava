@@ -83,8 +83,15 @@ public class GangdongController {
 
 
             //내가선택한 연,월의 요일의 날짜 구하기
+
             List<String> days = getSpecificWeekdays(vo);
             System.out.println(vo.getMonth()+"월의 요일별 날짜 계산 결과 : "+ days);
+            if (vo.getDay().equals("before")) {
+                days.removeIf(day -> Integer.parseInt(day) > 15);
+            } else {
+                days.removeIf(day -> Integer.parseInt(day) < 16);
+            }
+            System.out.println(vo.getMonth()+"15일 이전혹은 이후 날짜 계산 결과 : "+ days);
             boolean breakTp = false;
             // place1001부터 place1011까지 순차적으로 클릭
             for (int i = 1; i <= 11; i++) {
@@ -184,7 +191,7 @@ public class GangdongController {
         int year = vo.getYear();
         Month month = getMonth(vo.getMonth());
         Set<DayOfWeek> daysOfWeek = new HashSet<>();
-        getDay(daysOfWeek,vo.getDay());
+        getDay(daysOfWeek,vo.getDate());
         System.out.println("요일: " + daysOfWeek);
         // 시작 날짜와 종료 날짜
         LocalDate startDate = LocalDate.of(year, month, 1);
